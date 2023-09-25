@@ -2,6 +2,8 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+from itertools import product
+import random
 
 vertices = (
     (1, -1, -1),
@@ -38,8 +40,16 @@ surfaces = (
 )
 
 # colors for vertices
-from itertools import product
-colors = tuple(product([1,0],[1,0],[1,0]))
+
+# static colors
+# colors = tuple(product([1, 0], [1, 0], [1, 0]))
+
+
+def random_colors(num_vertices=8, num_channels=3):
+    return [[random.random() for __ in range(num_channels)] for _ in range(num_vertices)]
+# random colors
+
+colors = random_colors()
 
 def draw_cube():
     glBegin(GL_QUADS)
@@ -77,6 +87,9 @@ def main():
                     rotation_angle += 5
                 elif event.key == pygame.K_1:
                     rotation_angle -= 5
+                elif event.key == pygame.K_c:
+                    global colors
+                    colors = random_colors()
 
         glRotatef(rotation_angle, 2, 1, 2)
 
